@@ -7,23 +7,23 @@ fps = 60
 fpsClock = pygame.time.Clock()
 width, height = 740, 500
 pygame.display.set_caption("Simulador - Valores")
-font = pygame.font.SysFont('Arial', 18)
+font = pygame.font.SysFont('Verdana', 18)
 
 screen = pygame.display.set_mode((width, height))
 
-inputCampo = pygame.Rect(200, 140, 140, 32)
+inputCampo = pygame.Rect(200, 160, 140, 32)
 textCampo = ""
 campoActive = False
 
-inputVelocidade = pygame.Rect(200, 200, 140, 32)
+inputVelocidade = pygame.Rect(200, 220, 140, 32)
 textVelocidade = ""
 velocidadeActive = False
 
-inputCarga = pygame.Rect(200, 260, 140, 32)
+inputCarga = pygame.Rect(200, 280, 140, 32)
 textCarga = ""
 cargaActive = False
 
-inputMassa = pygame.Rect(200, 320, 140, 32)
+inputMassa = pygame.Rect(200, 340, 140, 32)
 textMassa = ""
 massaActive = False
 
@@ -86,7 +86,8 @@ Button(width/2 - 60, 400, 120, 35, "Salvar", myFunction)
                         
 while True:
     screen.fill((18, 38, 58))
-
+    textErro = font.render("Simulador: Movimento Circular Uniforme de Uma Partícula Carregada", True, (255, 255, 255))
+    screen.blit(textErro, (10, 10))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -164,7 +165,9 @@ while True:
 
     except ValueError: 
         textErro = font.render("Insira os valores:", True, (255, 255, 255))
-        screen.blit(textErro, (50, 50))
+        screen.blit(textErro, (70, 70))
 
+        
+        
     pygame.display.flip()
     fpsClock.tick(fps)
