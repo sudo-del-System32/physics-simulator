@@ -1,7 +1,11 @@
+import pygame
+pygame.init() 
+
 from src.entradas.startMenu import start
 
 def main():
     start()
+
 
 if __name__ == "__main__":
     main()

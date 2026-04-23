@@ -1,7 +1,6 @@
 import sys
 import pygame
 
-pygame.init()
 fps = 60
 
 fpsClock = pygame.time.Clock()
