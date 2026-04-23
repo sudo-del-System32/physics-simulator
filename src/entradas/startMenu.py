@@ -14,8 +14,7 @@ from src.entradas.button import Button
 
 
 def myFunction():
-    # print(f"Dados finais: {campo}, {velocidade}, {carga}, {massa}")
-    print("deu certo")
+    print(f"Dados finais: {campo}, {velocidade}, {carga}, {massa}")
 
 def create_label(
         name:str,
@@ -129,9 +128,13 @@ def start():
         create_label(nameMassa, textMassa, inputMassa, massaActive)
         
         try:
+            global campo
             campo = float(textCampo)
+            global velocidade 
             velocidade = float(textVelocidade)
+            global carga 
             carga = float(textCarga)
+            global massa
             massa = float(textMassa)
 
             for object in objects:
