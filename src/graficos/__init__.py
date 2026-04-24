@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+
+
 # campos e valores
 categorias = ['massa', 'velocidade', 'campo magnetico', 'carga', 'força magnetica', 'raio', 'AC']
 valores = [13, 43, 23.4, 12, 54, 34, 18]
