@@ -29,9 +29,13 @@ def formula_mov_circular(massa: float, velocidade: float, campoMagnetico: float,
     negativo = False
 
     if massa <= 0:
-        raise ValueError("Massa precisa ser um valor negativo.")
+        raise ValueError("Massa precisa ser um valor positivo.")
     if velocidade <= 0:
-        raise ValueError("Velocdade precisa ser um valor negativo.")
+        raise ValueError("Velocdade precisa ser um valor positivo.")
+    if campoMagnetico == 0:
+        raise ValueError("CampoMagnetico não pode ser nulo.")
+    if carga == 0:
+        raise ValueError("Carga não pode ser nulo.")
     if carga < 0:
         carga = abs(carga)
         negativo = True

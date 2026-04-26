@@ -3,9 +3,8 @@ from src.entradas import (
     pygame, 
     sys,
     font, 
-    screen,
+    width, height,
 
-    width,
     fps,
     fpsClock,
     startSimulation,
@@ -28,6 +27,7 @@ def myFunction():
     pygame.event.post(START_SIMULATION_EVENT)
 
 def create_label(
+        screen: pygame.surface.Surface,
         name:str,
         text:str, 
         rect: pygame.Rect, 
@@ -55,8 +55,9 @@ def create_label(
 
 def start():
     
+    screen = pygame.display.set_mode((width, height))
     pygame.display.flip()
-    
+
     Button(font, screen, width/2 - 60, 400, 120, 35, text="Salvar", onClick=myFunction)
     # Data for customization of inputs boxes
 
@@ -136,13 +137,13 @@ def start():
                     else:
                         textMassa += event.unicode
 
-        create_label(nameCampo, textCampo, inputCampo, campoActive)
+        create_label(screen, nameCampo, textCampo, inputCampo, campoActive)
 
-        create_label(nameVelocidade, textVelocidade, inputVelocidade, velocidadeActive)
+        create_label(screen, nameVelocidade, textVelocidade, inputVelocidade, velocidadeActive)
 
-        create_label(nameCarga, textCarga, inputCarga, cargaActive)
+        create_label(screen, nameCarga, textCarga, inputCarga, cargaActive)
         
-        create_label(nameMassa, textMassa, inputMassa, massaActive)
+        create_label(screen, nameMassa, textMassa, inputMassa, massaActive)
         
         try:
 
