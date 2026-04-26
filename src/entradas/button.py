@@ -22,7 +22,7 @@ class Button():
         self.height = height
         self.text = text
         self.onClick = onClick
-        self.onePress = onePress
+        self.onePress = True
         self.clicked = False
 
         self.fillColors = {

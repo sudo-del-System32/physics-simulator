@@ -5,12 +5,11 @@ pygame.init()
 from src import processamento
 from src.entradas.startMenu import start
 from src.simulacao.particula2 import simulacao
-from src.graficos import graficos
+from src.graficos.graphics import integrated
 
 def main():
     next = 1
     while True:
-            
         if next == 1:
             next = start()
         
@@ -27,7 +26,7 @@ def main():
             )
 
         if next == 3:
-            next = graficos(
+            next = integrated(
                 processamento.massa, 
                 processamento.velocidade, 
                 processamento.campo, 

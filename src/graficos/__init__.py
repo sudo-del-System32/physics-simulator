@@ -1,5 +1,15 @@
 import matplotlib.pyplot as plt
 from src import processamento
+import pygame
+
+nextSceane2 = pygame.USEREVENT + 6
+priorSceane2 = pygame.USEREVENT + 7
+
+def next():
+    pygame.event.post(pygame.event.Event(nextSceane2))
+
+def prior():
+    pygame.event.post(pygame.event.Event(priorSceane2))
 
 def graficos(massa, velocidade, campo, carga, forca, raio, aceleracao):
     # campos e valores
@@ -20,5 +30,8 @@ def graficos(massa, velocidade, campo, carga, forca, raio, aceleracao):
     ax.bar_label(bars, padding=3, color='white')  
     ax.set_ylim(0, max(valores) + 10)            
 
+    fig.set_dpi(100) # Multiply this by the inches to get the number of pixels in the screen.
+    fig.set_size_inches(15, 6.25, forward=True)
+
     # apresentação
-    plt.show()
+    plt.savefig('CaduGay.png')
