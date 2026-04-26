@@ -82,12 +82,16 @@ def main():
 
     centro_x, centro_y = largura // 2, altura // 2
     
+    # --- CORREÇÃO DA FÍSICA E REGRA DA MÃO DIREITA ---
+    # Removido o sinal de menos na velocidade angular para compensar o Eixo Y invertido do monitor
+    velocidade_angular = (carga * campo_b) / massa
+    
     fisico_x = 0.0
-    fisico_y = -(direcao_forca * raio_metros)
+    # Posiciona a partícula acima ou abaixo do centro dependendo da direção que ela vai curvar
+    fisico_y = -raio_metros if velocidade_angular > 0 else raio_metros
     vel_x = v_0
     vel_y = 0.0
 
-    velocidade_angular = (carga * campo_b) / massa
     delta_angulo = 0.02 
     passo_tempo = abs(delta_angulo / velocidade_angular) 
     tempo_real = 0.0
@@ -127,13 +131,11 @@ def main():
                         vel_y = (vel_y / vel_mag_atual) * abs(v_0)
 
                     # --- CORREÇÃO DO ZOOM VISUAL ---
-                    # Descobre qual o tamanho exato do círculo na tela antes de trocar a partícula
                     raio_visual_atual_px = raio_antigo * px_por_metro
-                    
-                    # Reajusta a câmera para o círculo continuar EXATAMENTE do mesmo tamanho visual
                     px_por_metro = raio_visual_atual_px / raio_metros
                     metros_por_quadrado = 50.0 / px_por_metro
 
+                    # CORREÇÃO DA ROTAÇÃO AQUI TAMBÉM
                     velocidade_angular = (carga * campo_b) / massa
                     passo_tempo = abs(delta_angulo / velocidade_angular) 
                     rastro.clear()
@@ -149,7 +151,7 @@ def main():
             raio_antigo = raio_metros
             raio_metros = (massa * abs(v_0)) / (abs(carga) * abs(campo_b))
             
-            # Ajusta a posição sem mudar a escala da câmera, assim o círculo aumenta/diminui
+            # Ajusta a posição sem mudar a escala da câmera
             fisico_x *= (raio_metros / raio_antigo)
             fisico_y *= (raio_metros / raio_antigo)
             
@@ -158,7 +160,7 @@ def main():
                 vel_x = (vel_x / vel_mag_atual) * abs(v_0)
                 vel_y = (vel_y / vel_mag_atual) * abs(v_0)
                 
-            rastro.clear() # Limpa o rastro para não poluir a tela enquanto altera o raio
+            rastro.clear()
 
         # --- FÍSICA (Calculada em metros) ---
         vel_x_anterior = vel_x
@@ -219,7 +221,7 @@ def main():
             "",
             "Vetores:",
             " Verde = Velocidade",
-            " Vermelho = Força Centrípeta",
+            " Vermelho = Força Magnética",
             "",
             "--- CONTROLES ---",
             "[CLIQUE NA JANELA PARA ATIVAR]",
