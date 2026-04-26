@@ -82,14 +82,12 @@ def main():
 
     centro_x, centro_y = largura // 2, altura // 2
     
-    direcao_forca = -1 if (carga * campo_b) > 0 else 1
-    
     fisico_x = 0.0
     fisico_y = -(direcao_forca * raio_metros)
     vel_x = v_0
     vel_y = 0.0
 
-    velocidade_angular = -(carga * campo_b) / massa
+    velocidade_angular = (carga * campo_b) / massa
     delta_angulo = 0.02 
     passo_tempo = abs(delta_angulo / velocidade_angular) 
     tempo_real = 0.0
@@ -136,7 +134,7 @@ def main():
                     px_por_metro = raio_visual_atual_px / raio_metros
                     metros_por_quadrado = 50.0 / px_por_metro
 
-                    velocidade_angular = -(carga * campo_b) / massa
+                    velocidade_angular = (carga * campo_b) / massa
                     passo_tempo = abs(delta_angulo / velocidade_angular) 
                     rastro.clear()
 
