@@ -10,4 +10,5 @@ font = pygame.font.SysFont('Verdana', 18)
 
 screen = pygame.display.set_mode((width, height))
 
-objects: list = []
+startSimulation = pygame.USEREVENT + 1
+START_SIMULATION_EVENT = pygame.event.Event(startSimulation)

@@ -1,5 +1,8 @@
 # --- Inputs ---
 # importar aqui os inputs
+global campo, velocidade, carga, massa
+global forca, raio, aceleracao, negativo
+
 
 # --- Formulas ---
 # Fc = Fm
@@ -23,8 +26,17 @@ def formula_mov_circular(massa: float, velocidade: float, campoMagnetico: float,
     UMA PARTÍCULA CARREGADA EM MOVIMENTO CIRCULAR.
     Recebe os inputs direto do menu de inputs.
     """
- 
-    Fm = carga*velocidade*campoMagnetico
+    negativo = False
+
+    if massa <= 0:
+        raise ValueError("Massa precisa ser um valor negativo.")
+    if velocidade <= 0:
+        raise ValueError("Velocdade precisa ser um valor negativo.")
+    if carga < 0:
+        carga = abs(carga)
+        negativo = True
+
+    Fm = abs(carga)*velocidade*abs(campoMagnetico)
     Raio = (massa*velocidade*velocidade)/Fm
     Ac = Fm/massa
 
@@ -32,4 +44,4 @@ def formula_mov_circular(massa: float, velocidade: float, campoMagnetico: float,
     Raio = round(Raio, 2)
     Ac = round(Ac, 2)
     
-    return Fm, Raio, Ac
+    return Fm, Raio, Ac, negativo

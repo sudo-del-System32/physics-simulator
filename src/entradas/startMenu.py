@@ -1,20 +1,31 @@
+from src import objects
 from src.entradas import (
     pygame, 
     sys,
     font, 
-    objects, 
     screen,
 
     width,
     fps,
-    fpsClock
+    fpsClock,
+    startSimulation,
+    START_SIMULATION_EVENT
 )
 
 from src.entradas.button import Button
-
+from src.processamento import formula_mov_circular
+from src import processamento
+    # campo,
+    # velocidade, 
+    # carga, 
+    # massa, 
+    # forca, 
+    # raio, 
+    # aceleracao
+# )
 
 def myFunction():
-    print(f"Dados finais: {campo}, {velocidade}, {carga}, {massa}")
+    pygame.event.post(START_SIMULATION_EVENT)
 
 def create_label(
         name:str,
@@ -22,6 +33,10 @@ def create_label(
         rect: pygame.Rect, 
         activatedColor: bool
     ):
+    # Color for when input active and Button customization
+
+    colorActive = pygame.color.Color((62, 130, 142))
+    colorNotActive = pygame.color.Color('gray')
 
     label = font.render(name, True, (255, 255, 255))
     screen.blit(label, (rect.x, rect.y - 25))
@@ -35,16 +50,14 @@ def create_label(
     rect.w = max(320, textSurface.get_width() + 10)
 
 
-# Color for when input active and Button customization
 
-colorActive = pygame.color.Color((62, 130, 142))
-colorNotActive = pygame.color.Color('gray')
-
-Button(width/2 - 60, 400, 120, 35, text="Salvar", onClick=myFunction)
 
 
 def start():
     
+    pygame.display.flip()
+    
+    Button(font, screen, width/2 - 60, 400, 120, 35, text="Salvar", onClick=myFunction)
     # Data for customization of inputs boxes
 
     nameCampo: str = "Campo Magnético (T):"
@@ -67,18 +80,22 @@ def start():
     inputMassa = pygame.Rect(200, 340, 140, 32)
     massaActive = False
 
+    stop = False
 
 
     # functions
-    
-    while True:
+    while not stop:
     
         screen.fill((18, 38, 58))
         textErro = font.render("Simulador: Movimento Circular Uniforme de Uma Partícula Carregada", True, (255, 255, 255))
         screen.blit(textErro, (10, 10))
         
         for event in pygame.event.get():
-        
+            
+            if event.type == startSimulation:
+                stop = True
+                objects.clear()
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -128,14 +145,13 @@ def start():
         create_label(nameMassa, textMassa, inputMassa, massaActive)
         
         try:
-            global campo
-            campo = float(textCampo)
-            global velocidade 
-            velocidade = float(textVelocidade)
-            global carga 
-            carga = float(textCarga)
-            global massa
-            massa = float(textMassa)
+
+            processamento.campo = float(textCampo)
+            processamento.velocidade = float(textVelocidade)
+            processamento.carga = float(textCarga)
+            processamento.massa = float(textMassa)
+
+            processamento.forca, processamento.raio, processamento.aceleracao, processamento.negativo = formula_mov_circular(processamento.massa, processamento.velocidade, processamento.campo, processamento.carga)
 
             for object in objects:
                 object.process()
@@ -148,4 +164,5 @@ def start():
             
         pygame.display.flip()
         fpsClock.tick(fps)
-        
+    
+    return 2

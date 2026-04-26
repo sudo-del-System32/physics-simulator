@@ -1,11 +1,15 @@
 import pygame
 import sys
 import math
+from src import objects
+from src.entradas.button import Button
+from src.simulacao import nextSceane, NEXT_SCEANE, priorSceane, PRIOR_SCEANE
 
-# Constantes Físicas
-e_charge = 1.60217663e-19
-proton_mass = 1.67262192e-27
-electron_mass = 9.1093837e-31
+def next():
+    pygame.event.post(NEXT_SCEANE)
+
+def before():
+    pygame.event.post(PRIOR_SCEANE)
 
 def desenhar_vetor(tela, cor, inicio_x, inicio_y, direcao_x, direcao_y, tamanho=60):
     """Função auxiliar para desenhar uma seta representando um vetor."""
@@ -23,51 +27,42 @@ def desenhar_vetor(tela, cor, inicio_x, inicio_y, direcao_x, direcao_y, tamanho=
     
     pygame.draw.polygon(tela, cor, [(fim_x, fim_y), ponto_esq, ponto_dir])
 
-def main():
-    print("=== Simulador em Escala Real (Próton vs Elétron) ===")
-    print("Dica: Velocidade = 1000 | Campo = 1.0\n")
+def simulacao(
+        velocidade: float, 
+        campo: float,
+        carga: float, 
+        massa: float, 
+        forca: float, 
+        raio: float, 
+        aceleracao: float,
+        negativo: bool
+):
     
     # 1. Coleta de Inputs
     try:
-        v_0 = float(input("Velocidade inicial (m/s) [ex: 1000]: "))
-        campo_b = float(input("Módulo do Campo Magnético (B em Tesla) [ex: 1.0]: "))
-        sinal_q = int(input("Partícula (Digite 1 para Próton, ou -1 para Elétron): "))
+        v_0 = velocidade
+        campo_b = campo
+        raio_metros = raio
+        sinal_q = -1 if negativo is True else 1
     except ValueError:
         print("Erro: Insira apenas números válidos.")
         sys.exit()
 
-    if sinal_q not in (1, -1):
-        print("Erro: O sinal deve ser 1 ou -1.")
-        sys.exit()
-        
-    if campo_b == 0:
-        print("Erro: O campo magnético não pode ser zero.")
-        sys.exit()
-        
-    if v_0 == 0:
-        v_0 = 1.0
-
-    # 2. Definindo a massa e carga com base na escolha
-    massa = proton_mass if sinal_q == 1 else electron_mass
-    carga = sinal_q * e_charge
-    nome_particula = "Próton" if sinal_q == 1 else "Elétron"
-
-    # 3. Calculando os valores físicos reais
-    raio_metros = (massa * abs(v_0)) / (abs(carga) * abs(campo_b))
-    
     # 4. Sistema de Câmera (Calculado apenas no início)
     raio_visual_px = 200.0
     px_por_metro = raio_visual_px / raio_metros
     metros_por_quadrado = 50.0 / px_por_metro
 
     # Setup do Pygame
-    pygame.init()
+    # pygame.init()
     largura, altura = 800, 800
     tela = pygame.display.set_mode((largura, altura))
     pygame.display.set_caption("Simulador Escala Real (CLIQUE AQUI ANTES DE USAR O TECLADO)")
     relogio = pygame.time.Clock()
     fonte = pygame.font.SysFont("Arial", 16)
     fonte_grande = pygame.font.SysFont("Arial", 20, bold=True)
+    Button(fonte, tela, largura-105, altura-55, 100, 50, onClick=next, text="Prox")
+    Button(fonte, tela, 0, altura-55, 100, 50, onClick=before, text="Anter")
 
     # Cores
     cor_fundo = (15, 15, 20)
@@ -99,46 +94,20 @@ def main():
 
     rodando = True
     while rodando:
+
         for evento in pygame.event.get():
+            
             if evento.type == pygame.QUIT:
-                rodando = False
-                
-            # Interatividade: Teclas únicas (apertar uma vez)
-            elif evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_SPACE:
-                    sinal_q *= -1 # Inverte a partícula
-                    
-                    massa = proton_mass if sinal_q == 1 else electron_mass
-                    carga = sinal_q * e_charge
-                    nome_particula = "Próton" if sinal_q == 1 else "Elétron"
-                    cor_particula = (255, 50, 50) if sinal_q > 0 else (50, 150, 255)
+                pygame.quit()
+                sys.exit()
 
-                    raio_antigo = raio_metros
-                    raio_metros = (massa * abs(v_0)) / (abs(carga) * abs(campo_b))
-                    
-                    fisico_x *= (raio_metros / raio_antigo)
-                    fisico_y *= (raio_metros / raio_antigo)
-                    
-                    # Mantém o centro orbitando
-                    vel_x *= -1
-                    vel_y *= -1
-                    
-                    vel_mag_atual = math.hypot(vel_x, vel_y)
-                    if vel_mag_atual != 0:
-                        vel_x = (vel_x / vel_mag_atual) * abs(v_0)
-                        vel_y = (vel_y / vel_mag_atual) * abs(v_0)
+            if evento.type == priorSceane:
+                objects.clear()
+                return 1
 
-                    # --- CORREÇÃO DO ZOOM VISUAL ---
-                    # Descobre qual o tamanho exato do círculo na tela antes de trocar a partícula
-                    raio_visual_atual_px = raio_antigo * px_por_metro
-                    
-                    # Reajusta a câmera para o círculo continuar EXATAMENTE do mesmo tamanho visual
-                    px_por_metro = raio_visual_atual_px / raio_metros
-                    metros_por_quadrado = 50.0 / px_por_metro
-
-                    velocidade_angular = -(carga * campo_b) / massa
-                    passo_tempo = abs(delta_angulo / velocidade_angular) 
-                    rastro.clear()
+            if evento.type == nextSceane:
+                objects.clear()
+                return 3
 
         # Interatividade: Teclas seguradas (para alterar velocidade continuamente)
         teclas = pygame.key.get_pressed()
@@ -161,6 +130,7 @@ def main():
                 vel_y = (vel_y / vel_mag_atual) * abs(v_0)
                 
             rastro.clear() # Limpa o rastro para não poluir a tela enquanto altera o raio
+
 
         # --- FÍSICA (Calculada em metros) ---
         vel_x_anterior = vel_x
@@ -211,9 +181,11 @@ def main():
 
         # HUD
         textos_hud = [
+            f"Força: {forca} N",
             f"Velocidade: {v_0:g} m/s",
-            f"Partícula: {nome_particula} (Massa: {massa:g} kg)",
-            f"Carga: {'+' if sinal_q > 0 else ''}{e_charge:g} C",
+            f"Aceleração: {aceleracao} m/s²",
+            f"Massa: {massa:g} kg)",
+            f"Carga: {carga} C",
             f"Campo B: {campo_b:g} T",
             f"Raio: {raio_metros:g} m",
             f"1 Quadrado (Grid) = {metros_por_quadrado:g} m",
@@ -224,8 +196,6 @@ def main():
             " Vermelho = Força Centrípeta",
             "",
             "--- CONTROLES ---",
-            "[CLIQUE NA JANELA PARA ATIVAR]",
-            "[ESPAÇO] Trocar Partícula",
             "[SEGURE SETAS] Mudar Velocidade"
         ]
 
@@ -251,11 +221,9 @@ def main():
             
         tela.blit(estado_b, (legenda_x + 10, legenda_y + 70))
 
+        # --- Button configs ---
+        for object in objects:
+            object.process()
+        
         pygame.display.flip()
         relogio.tick(60)
-
-    pygame.quit()
-    sys.exit()
-
-if __name__ == "__main__":
-    main()

@@ -1,8 +1,10 @@
-from src.entradas import pygame, font, objects, screen
+from src import objects
+import pygame
 
 class Button():
     def __init__(
             self, 
+            font: pygame.font.Font, screen: pygame.surface.Surface,
             x: float, 
             y: float,  
             width: float, 
@@ -12,6 +14,8 @@ class Button():
             onePress=False
         ):
 
+        self.font = font
+        self.screen = screen
         self.x = x
         self.y = y
         self.width = width
@@ -30,7 +34,7 @@ class Button():
         self.buttonSurface = pygame.Surface((self.width, self.height)) 
         self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height) # tinha um , border_radius=10 mas eu tirei e nao mudou nada 
 
-        self.buttonText = font.render(text, True, (20, 20, 20))
+        self.buttonText = self.font.render(text, True, (20, 20, 20))
         objects.append(self)
 
     def process(self):
@@ -39,7 +43,7 @@ class Button():
 
         if self.buttonRect.collidepoint(mousePosition):
             cor_atual = self.fillColors['hover']
-            self.buttonSurface.fill(self.fillColors['hover'])
+            # self.buttonSurface.fill(self.fillColors['hover'])
 
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
                 cor_atual = self.fillColors['pressed']
@@ -60,4 +64,4 @@ class Button():
             self.buttonRect.height / 2 - self.buttonText.get_rect().height/2,
         ])   
 
-        screen.blit(self.buttonSurface, self.buttonRect)                    
+        self.screen.blit(self.buttonSurface, self.buttonRect)                    
