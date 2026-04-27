@@ -1,7 +1,15 @@
 # --- Inputs ---
 # importar aqui os inputs
 global campo, velocidade, carga, massa
+campo: float
+velocidade: float 
+carga: float 
+massa: float
 global forca, raio, aceleracao, negativo
+forca: float
+raio: float
+aceleracao: float
+negativo: float
 
 
 # --- Formulas ---
