@@ -14,14 +14,6 @@ from src.entradas import (
 from src.entradas.button import Button
 from src.processamento import formula_mov_circular
 from src import processamento
-    # campo,
-    # velocidade, 
-    # carga, 
-    # massa, 
-    # forca, 
-    # raio, 
-    # aceleracao
-# )
 
 def myFunction():
     pygame.event.post(START_SIMULATION_EVENT)
@@ -62,22 +54,34 @@ def start():
     # Data for customization of inputs boxes
 
     nameCampo: str = "Campo Magnético (T):"
-    textCampo: str = ""
+    try:
+        textCampo: str = str(processamento.campo)
+    except AttributeError:
+        textCampo: str = "" 
     inputCampo = pygame.Rect(200, 160, 140, 32)
     campoActive = False
 
     nameVelocidade: str = "Velocidade (m/s):"
-    textVelocidade: str = ""
+    try:
+        textVelocidade: str = str(processamento.velocidade) 
+    except AttributeError:
+        textVelocidade: str = "" 
     inputVelocidade = pygame.Rect(200, 220, 140, 32)
     velocidadeActive = False
 
     nameCarga: str = "Carga (C):"
-    textCarga: str = ""
+    try:
+        textCarga: str = str(processamento.carga)
+    except AttributeError:
+        textCarga: str = "" 
     inputCarga = pygame.Rect(200, 280, 140, 32)
     cargaActive = False
 
     nameMassa: str = "Massa (kg):"
-    textMassa: str = ""
+    try:
+        textMassa: str = str(processamento.massa)
+    except AttributeError:
+        textMassa: str = "" 
     inputMassa = pygame.Rect(200, 340, 140, 32)
     massaActive = False
 
