@@ -25,7 +25,7 @@ def integrated(massa, velocidade, campo, carga, forca, raio, aceleracao):
 
         for event in pygame.event.get():
 
-            print(event)
+            # print(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
