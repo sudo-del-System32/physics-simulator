@@ -5,7 +5,7 @@ from src.entradas import width, height
 from src.entradas.button import Button
 
 def integrated(massa, velocidade, campo, carga, forca, raio, aceleracao):
-    graficos(massa, velocidade, campo, carga, forca, raio, aceleracao)
+    graficos(abs(massa), abs(velocidade), abs(campo), abs(carga), abs(forca), abs(raio), abs(aceleracao))
 
     # --- Setting image an Background ---
     bg = pygame.image.load("CaduGay.png")
