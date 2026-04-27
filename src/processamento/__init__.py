@@ -9,7 +9,7 @@ global forca, raio, aceleracao, negativo
 forca: float
 raio: float
 aceleracao: float
-negativo: float
+negativo: bool
 
 
 # --- Formulas ---
