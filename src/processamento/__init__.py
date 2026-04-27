@@ -52,8 +52,8 @@ def formula_mov_circular(massa: float, velocidade: float, campoMagnetico: float,
     Raio = (massa*velocidade*velocidade)/Fm
     Ac = Fm/massa
 
-    Fm = round(Fm, 2)
-    Raio = round(Raio, 2)
-    Ac = round(Ac, 2)
+    # Fm = round(Fm, 2)
+    # Raio = round(Raio, 2)
+    # Ac = round(Ac, 2)
     
     return Fm, Raio, Ac, negativo
