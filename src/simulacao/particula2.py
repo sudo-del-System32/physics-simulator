@@ -211,7 +211,7 @@ def simulacao(
         simbolo_centro = (legenda_x + 70, legenda_y + 45)
         pygame.draw.circle(tela, cor_texto, simbolo_centro, 15, 2)
         
-        if campo_b > 0:
+        if campo_b < 0:
             pygame.draw.circle(tela, cor_texto, simbolo_centro, 4)
             estado_b = fonte.render("Saindo da Tela", True, cor_texto)
         else:
