@@ -13,7 +13,7 @@ def prior():
 
 def graficos(massa, velocidade, campo, carga, forca, raio, aceleracao):
     # campos e valores
-    categorias = ['massa', 'velocidade', 'campo magnetico', 'carga', 'força magnetica', 'raio', 'AC']
+    categorias = ['Massa', 'Velocidade', 'Campo Magnetico', 'Carga', 'Força Magnetica', 'Raio', 'Aceleração Centripeta']
     valores = [massa, velocidade, campo, carga, forca, raio, aceleracao]
     cores = ['#f99201', "#b80538", "#6905a3", "#0CC1C4", "#ce09b1", "#aeff17bf", '#ff0022']
 
@@ -28,7 +28,7 @@ def graficos(massa, velocidade, campo, carga, forca, raio, aceleracao):
     ax.spines['right'].set_color('#1e1e1e') 
     bars = ax.bar(categorias, valores, color=cores)  
     ax.bar_label(bars, padding=3, color='white')  
-    ax.set_ylim(0, max(valores) + 10)            
+    ax.set_ylim(0, max(valores) + max(valores)/2)            
 
     fig.set_dpi(100) # Multiply this by the inches to get the number of pixels in the screen.
     fig.set_size_inches(15, 6.25, forward=True)
