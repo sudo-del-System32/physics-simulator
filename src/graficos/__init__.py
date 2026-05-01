@@ -34,4 +34,4 @@ def graficos(massa, velocidade, campo, carga, forca, raio, aceleracao):
     fig.set_size_inches(15, 6.25, forward=True)
 
     # apresentação
-    plt.savefig('CaduGay.png')
+    plt.savefig('resultados.png')

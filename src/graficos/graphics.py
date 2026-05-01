@@ -8,7 +8,7 @@ def integrated(massa, velocidade, campo, carga, forca, raio, aceleracao):
     graficos(abs(massa), abs(velocidade), abs(campo), abs(carga), abs(forca), abs(raio), abs(aceleracao))
 
     # --- Setting image an Background ---
-    bg = pygame.image.load("CaduGay.png")
+    bg = pygame.image.load("resultados.png")
     w = 1500
     h = 625
     pygame.display.set_caption("Simulador - Grafico")
