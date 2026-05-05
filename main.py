@@ -3,11 +3,14 @@ import pygame
 pygame.init() 
 
 from src import processamento
+from src.entradas.credits import credits_menu
 from src.entradas.startMenu import start
 from src.simulacao.particula2 import simulacao
 from src.graficos.graphics import integrated
 
 def main():
+    credits_menu()
+
     next = 1
     while True:
         if next == 1:

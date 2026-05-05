@@ -9,5 +9,8 @@ pygame.display.set_caption("Simulador - Valores")
 font = pygame.font.SysFont('Verdana', 18)
 
 
+startProgram = pygame.USEREVENT
+START_PROGRAM = pygame.event.Event(startProgram)
+
 startSimulation = pygame.USEREVENT + 1
 START_SIMULATION_EVENT = pygame.event.Event(startSimulation)
